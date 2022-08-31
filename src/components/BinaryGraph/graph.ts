@@ -1,10 +1,11 @@
 
 import G6 from '@antv/g6';
-import {TreeGenerate} from '../utils/generateData'
-export default function createG6Graph(containerString, data) {
+import {TreeGenerate} from './generateData'
+import {arrayValue} from './data.type'
+export default function createG6Graph(containerString: string, data?: arrayValue[]) {
     const container = document.getElementById(containerString);
-    const width = container.scrollWidth;
-    const height = container.scrollHeight || 500;
+    const width = container?.scrollWidth;
+    const height = container?.scrollHeight || 500;
     const graph = new G6.TreeGraph({
         container: containerString,
         width,
@@ -15,8 +16,8 @@ export default function createG6Graph(containerString, data) {
             {
             type: 'collapse-expand',
             onChange: function onChange(item, collapsed) {
-                const data = item.getModel();
-                data.collapsed = collapsed;
+                const data = item?.getModel();
+                data && (data.collapsed = collapsed);
                 return true;
             },
             },
@@ -37,7 +38,7 @@ export default function createG6Graph(containerString, data) {
         layout: {
             type: 'compactBox',
             direction: 'TB',
-            getId: function getId(d) {
+            getId: function getId(d: {id: string}) {
                 return d.id;
             },
             getHeight: function getHeight() {
@@ -88,7 +89,7 @@ export default function createG6Graph(containerString, data) {
         graph.changeSize(container.scrollWidth, container.scrollHeight);
     };
 
-    function render(data) {
+    function render(data: arrayValue[]) {
         graph.data(TreeGenerate.generateLG(data));
         graph.render();
         graph.fitView();

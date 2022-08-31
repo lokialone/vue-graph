@@ -1,9 +1,4 @@
-type arrayValue = number | null;
-interface resultType {
-    id: string,
-    label?: number | null,
-    children?: resultType[]
-}
+import {arrayValue} from './data.type'
 class TreeNode {
     id: string;
     label?: number | null;
@@ -74,47 +69,4 @@ class TreeGenerate {
         return result;
     }
 }
-function geneBinary(a: arrayValue[]) {
-    let result: resultType = {id : '1', label : 1};
-    let map =  new Map();
-    for(let i = 0; i < a.length; i++) {
-        const leftIndex = 2 * i + 1;
-        let tmpData = {} as resultType;
-        if (map.has(i)) {
-            tmpData = map.get(i);
-        } else {
-            tmpData = {
-                id: i.toString(),
-                label: a[i]
-            }
-        }
-        if (leftIndex < a.length) {
-            const leftChild = {
-                id: leftIndex.toString(),
-                label: a[leftIndex], 
-            }
-            const rightChild = {
-                id: String(leftIndex+1),
-                label: a[leftIndex+1] || null, 
-            }
-            map.set(leftIndex, leftChild);
-            map.set(leftIndex+1, rightChild);
-            tmpData.children = [leftChild, rightChild]
-        }
-        
-        if (i == 0) {
-            result = tmpData;
-        }
-    }
-    return result;
-
-}
-
-function test() {
-    const testData = [1,3,2,5,3,null,9];
-    console.log(geneBinary(testData));
-
-}
-
-
-export {geneBinary, test, TreeGenerate};
+export { TreeGenerate, TreeNode};
